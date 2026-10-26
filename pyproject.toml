@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ashrink"
+version = "0.1.0.dev0"
+description = "Empirical Bayes adaptive shrinkage for effect estimates, rates and probabilities"
+authors = [{name = "Nilson Chapagain", email = "nchapagain@tamu.edu"}]
+readme = "README.md"
+requires-python = ">=3.10"
+license = "GPL-3.0-or-later"
+license-files = ["LICENSE", "NOTICE.md"]
+dependencies = ["numpy>=1.24", "scipy>=1.11"]
+
+[project.urls]
+Repository = "https://github.com/nilson01/ashrink"
+Issues = "https://github.com/nilson01/ashrink/issues"
+
+[project.optional-dependencies]
+plot = ["matplotlib>=3.7"]
+table = ["pandas>=2"]
+dev = ["pytest>=8", "ruff>=0.14", "build>=1.2"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
