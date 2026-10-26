@@ -36,10 +36,22 @@ and null/sign probabilities therefore require the qualifications given below.
 
 # Installation
 
-From GitHub, with Git installed:
+Install from PyPI:
 
 ```sh
-python -m pip install 'git+https://github.com/nilson01/ashrink.git'
+pip install ashrink
+```
+
+For plotting and pandas tables:
+
+```sh
+pip install "ashrink[plot,table]"
+```
+
+With Git installed, install the latest source from GitHub:
+
+```sh
+pip install "git+https://github.com/nilson01/ashrink.git"
 ```
 
 From a local checkout:
@@ -48,13 +60,7 @@ From a local checkout:
 python -m pip install .
 ```
 
-For plotting and pandas tables:
-
-```sh
-python -m pip install '.[plot,table]'
-```
-
-R is not a runtime dependency.
+R is not required.
 
 ## Tested environments
 

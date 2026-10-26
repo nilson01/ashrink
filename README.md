@@ -6,7 +6,8 @@ and regression from outcomes and predictors, including Gaussian random intercept
 It learns finite-mixture weights from the data and returns posterior summaries.
 
 [Documentation](https://nilson01.github.io/ashrink/) ·
-[Source](https://github.com/nilson01/ashrink)
+[Source](https://github.com/nilson01/ashrink) ·
+[PyPI](https://pypi.org/project/ashrink/)
 
 The adaptive-shrinkage method follows [Stephens (2017)](https://doi.org/10.1093/biostatistics/kxw041).
 The R packages [ashr](https://github.com/stephens999/ashr) and
@@ -14,16 +15,22 @@ The R packages [ashr](https://github.com/stephens999/ashr) and
 methods. Count models use conjugate mixtures with a specified common mode.
 AShrink is an independent implementation; the original authors have not endorsed it.
 
-## Install from source
+## Installation
 
 ```sh
-python -m pip install 'git+https://github.com/nilson01/ashrink.git'
+pip install ashrink
+```
+
+For plotting and pandas tables, use `pip install "ashrink[plot,table]"`.
+NumPy and SciPy are runtime dependencies; R is not required.
+
+With Git installed, install the latest source from GitHub:
+
+```sh
+pip install "git+https://github.com/nilson01/ashrink.git"
 ```
 
 From a local checkout, use `python -m pip install .`.
-
-NumPy and SciPy are runtime dependencies. Plotting and pandas tables use the
-`plot` and `table` extras. No R runtime is required.
 
 ## First example
 
