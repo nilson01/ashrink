@@ -1,0 +1,5 @@
+include LICENSE NOTICE.md CITATION.cff README.md
+recursive-include docs *.md *.png *.csv
+recursive-include examples *.py
+recursive-include tests *.py *.json
+recursive-include tools *.R

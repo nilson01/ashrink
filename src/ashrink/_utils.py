@@ -105,7 +105,7 @@ def fit_weights(loglik, *, penalty=None, initial=None, maxiter=10000, tol=1e-8):
             bounds=[(1e-14 if v > 0 else 0.0, 1.0) for v in pseudo],
             constraints={"type": "eq", "fun": lambda w: w.sum() - 1, "jac": lambda w: np.ones(k)},
             callback=callback,
-            options={"maxiter": remaining, "ftol": min(1e-12, tol * 0.01)},
+            options={"maxiter": remaining, "ftol": min(1e-15, tol * 0.001)},
         )
         candidate = np.maximum(polished.x, 0.0)
         candidate /= candidate.sum()

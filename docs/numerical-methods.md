@@ -32,3 +32,21 @@ weights. They omit uncertainty from fitting those weights. Dependence between
 scalar observations, misspecified likelihoods and unsuitable prior components
 can affect inference. Independent reference comparisons and statistical
 performance checks are recorded separately from implementation progress.
+
+
+Gaussian regression uses cyclic variational coordinate ascent with
+residual-variance-scaled normal-mixture priors, following
+[Kim et al. (2024)](https://jmlr.org/papers/v25/22-0953.html).
+The objective is an evidence lower bound, rather than the exact marginal
+likelihood. Coefficient marginals factorize; their variances need not equal
+those from the exact joint posterior. Mean predictions reuse fitted
+preprocessing. See the [regression guide](regression.md) for inputs and limits.
+
+
+Binary/binomial regression uses a quadratic logistic lower bound. Poisson
+regression uses analytic exponential moments of independent mixture-normal
+factors, with guarded inner Newton optimization. Gaussian random-intercept
+regression uses independent coefficient and group factors. These extensions
+have focused analytic/stationarity checks, not repeated-dataset calibration
+studies. Prediction applies the fitted mean coefficients; nonlinear predictions
+do not integrate their uncertainty. See the [regression guide](regression.md).

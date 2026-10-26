@@ -8,6 +8,10 @@
 | Counts and exposure times | `fit_poisson` | Nonnegative Poisson rates |
 | Successes and trial counts | `fit_binomial` | Binomial probabilities |
 | Effect matrices and error covariances | `fit_multivariate` | Effect vectors across conditions |
+| Continuous outcomes and predictor matrix | `fit_regression` | Regression coefficients and predicted means |
+| Binary/binomial outcomes and predictors | `fit_logistic_regression` | Log-odds coefficients and fitted probabilities |
+| Counts, exposures and predictors | `fit_poisson_regression` | Log-rate coefficients and fitted counts |
+| Continuous outcomes, predictors and groups | `fit_mixed_regression` | Fixed coefficients and random intercepts |
 
 In `fit`, `family` selects the prior: `normal`, `uniform` or `halfuniform`.
 A finite `df` selects a Student-t likelihood; its input standard-error value
@@ -29,6 +33,9 @@ likelihood routes. When effects are measured across conditions, their relationsh
 inform shrinkage. Multivariate fitting uses supplied positive-semidefinite
 covariance patterns and positive-definite observation-error covariances;
 patterns and residual correlations are not learned from the effects.
+
+For regression inputs, see the [regression guide](regression.md). Its coefficient
+distributions use a variational approximation; prediction returns outcome means.
 
 ## Inspect posterior results
 
@@ -56,7 +63,7 @@ null probabilities therefore have different meanings.
 ## Tables and saved results
 
 Named-column adapters are `fit_frame`, `fit_poisson_frame`,
-`fit_binomial_frame` and `fit_multivariate_frame`. They accept pandas frames
+`fit_binomial_frame`, `fit_multivariate_frame` and the regression `_frame` adapters. They accept pandas frames
 or mappings of columns. Scalar missing values are rejected by default;
 `missing="drop"` explicitly removes incomplete rows and retains their indices.
 Other input routes require complete data.
@@ -68,7 +75,10 @@ weights. `result.to_dataframe()` requires the `table` extra.
 
 ## Plots
 
-`plot_shrinkage`, `plot_intervals`, `plot_prior` and `plot_diagnostics` return
+For summary-input fits, `plot_shrinkage`, `plot_intervals`, `plot_prior` and
+`plot_diagnostics` return
 Matplotlib axes. They do not call `show` or save files. For multivariate
 results, `condition` selects the column to display. Prior density plots keep
-point-null probability separate from continuous density.
+point-null probability separate from continuous density. Regression has
+`plot_coefficients` and `plot_residuals`; `plot_diagnostics` displays the
+variational objective. Random-intercept fits also have `plot_random_effects`.

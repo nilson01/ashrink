@@ -1,7 +1,8 @@
 # AShrink
 
 AShrink provides empirical Bayes shrinkage for noisy effect estimates, count rates,
-binomial probabilities and effect estimates measured across several conditions.
+binomial probabilities, effect estimates measured across several conditions,
+and regression from outcomes and predictors, including Gaussian random intercepts.
 It learns finite-mixture weights from the data and returns posterior summaries.
 
 The adaptive-shrinkage method follows [Stephens (2017)](https://doi.org/10.1093/biostatistics/kxw041).
@@ -46,12 +47,18 @@ conditional on those fitted weights.
 | Counts with exposure times | `fit_poisson` | Gamma components sharing a specified mode |
 | Successes out of trials | `fit_binomial` | Beta components sharing a specified mode |
 | Effects across conditions | `fit_multivariate` | Multivariate normals with supplied covariance patterns |
+| Continuous outcomes and predictors | `fit_regression` | Normal-mixture coefficient priors; variational inference |
+| Binary outcomes or successes/trials and predictors | `fit_logistic_regression` | Normal-mixture coefficient priors; logistic bound |
+| Counts and predictors | `fit_poisson_regression` | Normal-mixture coefficient priors; Poisson variational inference |
+| Grouped continuous outcomes | `fit_mixed_regression` | Shrunk fixed effects and Gaussian random intercepts |
 
 Each route provides posterior estimates, credible intervals, null/sign
 probabilities, tables and saved results. Plots use the `plot` extra.
-See the [API guide](docs/api.md), [worked examples](examples/workflows.py)
-and [numerical limits](docs/numerical-methods.md). Numerical validation and
-release checks are pending.
+See the [API guide](docs/api.md), [worked examples](examples/workflows.py),
+[regression](docs/regression.md)
+and [numerical limits](docs/numerical-methods.md).
+[Reference checks](docs/reference-checks.md) record the installed-R cases and
+independent analytic checks. Platform and release checks remain pending.
 
 ## Citation
 

@@ -7,7 +7,9 @@ them, then inspect the fitted posterior distributions.
 - [Worked examples](../examples/workflows.py)
 - [API guide](api.md)
 - [Numerical methods and limits](numerical-methods.md)
+- [Reference checks](reference-checks.md)
 
-The numerical-validation milestone is pending. The implementation workflow
-checks syntax, lint and distribution builds; it does not establish statistical
-correctness or interval coverage.
+- [Regression from outcomes and predictors](regression.md)
+
+See the [numerical methods and limits](numerical-methods.md) for the scope of
+posterior uncertainty.

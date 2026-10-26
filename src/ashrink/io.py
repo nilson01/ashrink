@@ -65,6 +65,52 @@ def fit_multivariate_frame(data, estimates, standard_errors, **options):
     )
 
 
+def _regression_columns(data, outcome, predictors, options):
+    if isinstance(predictors, str):
+        raise ValueError("predictors must be a sequence of column names")
+    names = list(predictors)
+    if not names or len(set(names)) != len(names) or outcome in names:
+        raise ValueError("predictors must be distinct and must exclude the outcome")
+    options.setdefault("labels", names)
+    return np.column_stack([_column(data, name) for name in names]), _column(data, outcome)
+
+
+def fit_regression_frame(data, outcome, predictors, **options):
+    """Fit Gaussian regression from an outcome and named numeric predictors."""
+    from .regression import fit_regression
+
+    X, y = _regression_columns(data, outcome, predictors, options)
+    return fit_regression(X, y, **options)
+
+
+def fit_logistic_regression_frame(data, outcome, predictors, *, trials=1, offset=0, **options):
+    """Fit logistic regression; trials and offset may name numeric columns."""
+    from .glm import fit_logistic_regression
+
+    X, y = _regression_columns(data, outcome, predictors, options)
+    totals = _column(data, trials) if isinstance(trials, str) else trials
+    offsets = _column(data, offset) if isinstance(offset, str) else offset
+    return fit_logistic_regression(X, y, trials=totals, offset=offsets, **options)
+
+
+def fit_poisson_regression_frame(data, outcome, predictors, *, exposure=1, offset=0, **options):
+    """Fit Poisson regression; exposure and offset may name numeric columns."""
+    from .glm import fit_poisson_regression
+
+    X, y = _regression_columns(data, outcome, predictors, options)
+    exposures = _column(data, exposure) if isinstance(exposure, str) else exposure
+    offsets = _column(data, offset) if isinstance(offset, str) else offset
+    return fit_poisson_regression(X, y, exposure=exposures, offset=offsets, **options)
+
+
+def fit_mixed_regression_frame(data, outcome, predictors, *, group, **options):
+    """Fit Gaussian random intercepts from a named string group column."""
+    from .mixed import fit_mixed_regression
+
+    X, y = _regression_columns(data, outcome, predictors, options)
+    return fit_mixed_regression(X, y, _column(data, group), **options)
+
+
 def read_csv(path):
     """Read a headered numeric CSV into a mapping of NumPy columns."""
     with Path(path).open(newline="", encoding="utf-8-sig") as stream:
@@ -116,6 +162,18 @@ def load_result(path):
         from .counts import CountResult
 
         return CountResult.from_dict(record)
+    if model in ("logistic_regression", "poisson_regression"):
+        from .glm import GLMResult
+
+        return GLMResult.from_dict(record)
+    if model == "gaussian_mixed_regression":
+        from .mixed import MixedRegressionResult
+
+        return MixedRegressionResult.from_dict(record)
+    if model == "gaussian_regression":
+        from .regression import RegressionResult
+
+        return RegressionResult.from_dict(record)
     if model == "multivariate":
         from .multivariate import MultivariateResult
 

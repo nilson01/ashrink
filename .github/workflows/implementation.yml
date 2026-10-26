@@ -1,4 +1,4 @@
-name: Implementation
+name: Package checks
 on:
   pull_request:
   push:
@@ -7,26 +7,51 @@ on:
 permissions:
   contents: read
 concurrency:
-  group: implementation-${{ github.ref }}
+  group: package-${{ github.ref }}
   cancel-in-progress: true
 jobs:
-  structure:
-    name: Package structure
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
+  wheel:
+    name: ${{ matrix.label }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {label: Minimum dependencies, os: ubuntu-latest, python: '3.10', minimum: true}
+          - {label: Current Python, os: ubuntu-latest, python: '3.14', minimum: false}
+          - {label: Windows, os: windows-latest, python: '3.13', minimum: false}
+    env:
+      MPLBACKEND: Agg
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
           persist-credentials: false
       - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
         with:
-          python-version: '3.12'
+          python-version: ${{ matrix.python }}
           cache: pip
-      - name: Install build and syntax tools
-        run: python -m pip install build ruff
-      - name: Check syntax and lint
+      - name: Install build tools
+        run: python -m pip install build ruff pytest
+      - name: Check lint and build distributions
         run: |
-          python -m compileall -q src examples
-          python -m ruff check src examples
-      - name: Build distributions
-        run: python -m build
+          python -m ruff check src tests examples
+          python -m build
+      - name: Install minimum dependencies
+        if: matrix.minimum
+        run: python -m pip install numpy==1.24.4 scipy==1.11.4 matplotlib==3.7.5
+      - name: Install wheel and run from outside checkout
+        shell: python
+        run: |
+          import os, pathlib, shutil, subprocess, sys
+          root = pathlib.Path.cwd()
+          wheel = next((root / 'dist').glob('*.whl'))
+          subprocess.run([sys.executable, '-m', 'pip', 'install', str(wheel) + '[plot]'], check=True)
+          target = pathlib.Path(os.environ['RUNNER_TEMP']) / 'ashrink-installed-check'
+          target.mkdir(exist_ok=False)
+          shutil.copytree(root / 'tests', target / 'tests')
+          os.chdir(target)
+          subprocess.run([sys.executable, '-c', 'import ashrink; print(ashrink.__file__)'], check=True)
+          subprocess.run([sys.executable, '-m', 'pytest', '-q', 'tests'], check=True)
