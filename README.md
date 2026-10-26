@@ -65,7 +65,8 @@ See the [API guide](docs/api.md), [worked examples](examples/workflows.py),
 [regression](docs/regression.md)
 and [numerical limits](docs/numerical-methods.md).
 [Reference checks](docs/reference-checks.md) record the installed-R cases and
-independent analytic checks. Platform and release checks remain pending.
+independent analytic checks. Installed-wheel tests pass on macOS with Python 3.10
+and 3.14. Windows verification is pending. The package is not yet released.
 
 ## Citation
 
