@@ -22,7 +22,8 @@ initial weights/variance, an intercept and no standardization. R uses
 Its `sigma_dep_q` option uses a different update and need not agree after one
 sweep. Stopping rules also differ: AShrink checks changes in the evidence
 lower bound (ELBO), whereas R checks coefficient or mixture-weight changes.
-Matching results in these cases does not establish global optimization, interval coverage or prediction performance.
+Matching results in these cases does not establish global optimization, interval
+coverage or prediction performance.
 
 ## Recreate the fixtures
 
@@ -45,9 +46,8 @@ committed fixtures and do not invoke R. To check a regenerated export, compare
 its case values with the matching fixture; local namespace paths may differ.
 
 The pinned regression package requests C++11. With current RcppArmadillo headers,
-our installation required a C++17 compiler setting. The local R configuration
-also referenced absent Fortran libraries; selecting installed Fortran libraries
-resolved linking. These were build settings; the reference source was unchanged.
+the reference build required a C++17 compiler setting and paths to installed
+Fortran libraries. The reference source was unchanged.
 Compiler and BLAS differences can affect final rounding.
 
 R warns that half-uniform priors without a null-biased penalty can give
@@ -64,7 +64,6 @@ compare fixed-variance posterior means with a joint Gaussian block solution.
 These checks address the implemented updates; they do not establish interval
 coverage or prediction performance across repeated datasets.
 
-
 Multivariate comparisons use explicit covariance patterns, correlation matrices,
 unit scale multipliers and no automatic covariance normalization. One case
 checks a single full-rank component, one estimates mixture weights, and one
@@ -72,4 +71,4 @@ reconstructs fixed-weight summaries with singular patterns and a zero atom.
 The fixed-weight case uses `mash(..., fixg=TRUE)` in R and public result
 reconstruction in Python. It checks posterior calculations rather than fitting
 new mixture weights. R's one-component optimizer reports that no optimization
-is needed. Learned covariance patterns remain outside the selected support.
+is needed. Learning covariance patterns is not supported.

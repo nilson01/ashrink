@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ashrink"
-version = "0.1.0.dev0"
+version = "0.1.0"
 description = "Empirical Bayes adaptive shrinkage for effect estimates and regression"
 authors = [{name = "Nilson Chapagain", email = "nchapagain@tamu.edu"}]
 readme = "README.md"
@@ -19,6 +19,7 @@ ashrink = "ashrink.__main__:main"
 [project.urls]
 Repository = "https://github.com/nilson01/ashrink"
 Issues = "https://github.com/nilson01/ashrink/issues"
+Documentation = "https://nilson01.github.io/ashrink/"
 
 [project.optional-dependencies]
 plot = ["matplotlib>=3.7"]

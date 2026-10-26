@@ -8,8 +8,8 @@ It learns finite-mixture weights from the data and returns posterior summaries.
 The adaptive-shrinkage method follows [Stephens (2017)](https://doi.org/10.1093/biostatistics/kxw041).
 The R packages [ashr](https://github.com/stephens999/ashr) and
 [mashr](https://github.com/stephenslab/mashr) are numerical references for matched
-methods. Count conjugate-mixture methods have their own contracts. AShrink is an
-independent implementation; the original authors have not endorsed it.
+methods. Count models use conjugate mixtures with a specified common mode.
+AShrink is an independent implementation; the original authors have not endorsed it.
 
 ## Install from a checkout
 
@@ -59,7 +59,7 @@ conditional on the fitted prior. These are fixed illustrative inputs; the
 | Counts and predictors | `fit_poisson_regression` | Normal-mixture coefficient priors; Poisson variational inference |
 | Grouped continuous outcomes | `fit_mixed_regression` | Shrunk fixed effects and Gaussian random intercepts |
 
-Each route provides posterior estimates, credible intervals, null/sign
+Each method provides posterior estimates, credible intervals, null/sign
 probabilities, tables and saved results. Plots use the `plot` extra.
 See the [reference manual](docs/manual/reference.md) ([PDF](docs/manual/ashrink-reference.pdf)),
 [API guide](docs/api.md), [worked examples](examples/workflows.py),

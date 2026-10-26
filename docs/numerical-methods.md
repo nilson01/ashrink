@@ -4,7 +4,7 @@ The scalar implementation estimates finite-mixture weights for the
 adaptive-shrinkage models described by [Stephens (2017)](https://doi.org/10.1093/biostatistics/kxw041).
 Gaussian component posteriors are analytic. Student-t component posteriors
 use adaptive one-dimensional quadrature and record integration diagnostics.
-This numerical route can be substantially slower than the Gaussian route.
+Quadrature can be substantially slower than the analytic Gaussian calculation.
 
 Mixture fitting uses expectation–maximization (EM) with fixed component grids,
 followed by constrained optimization when the optimality residual remains
@@ -16,7 +16,7 @@ nonconvergence information rather than treating every returned fit as reliable.
 
 The R reference version is ashr 2.2-63. Uniform widths and normal standard
 deviations have different meanings. Student-t inputs are scale parameters.
-The normal-prior/Student-t combination uses an independent integration route;
+The normal-prior/Student-t combination uses an independent integration method;
 the inspected R implementation rejects that combination. Ranked summaries
 include all tied local probabilities at a cutoff, which can differ from R's
 order-dependent cumulative averages within ties.
@@ -26,13 +26,13 @@ a specified mode, with an optional point mass at that mode. Multivariate
 models use finite mixtures of zero-mean normals with supplied covariance
 patterns, following the fixed-pattern part of
 [Urbut et al. (2019)](https://doi.org/10.1038/s41588-018-0268-8).
-Selected support does not imply full ashr or mashr coverage.
+AShrink does not implement all methods in ashr or mashr.
 
 Posterior probabilities and credible intervals condition on estimated mixture
 weights. They omit uncertainty from fitting those weights. Dependence between
 scalar observations, misspecified likelihoods and unsuitable prior components
-can affect inference. Independent reference comparisons and statistical
-performance checks are recorded separately from implementation progress.
+can affect inference. The [reference checks](reference-checks.md) describe the
+numerical comparisons and their limits.
 
 Gaussian regression uses cyclic variational coordinate ascent with
 residual-variance-scaled normal-mixture priors, following
@@ -46,6 +46,6 @@ Binary/binomial regression uses a quadratic logistic lower bound. Poisson
 regression uses analytic exponential moments of independent mixture-normal
 factors, with guarded inner Newton optimization. Gaussian random-intercept
 regression uses independent coefficient and group factors. These extensions
-have focused analytic/stationarity checks, not repeated-dataset calibration
+have focused analytic and stationarity checks, not repeated-dataset calibration
 studies. Prediction applies the fitted mean coefficients; nonlinear predictions
 do not integrate their uncertainty. See the [regression guide](regression.md).

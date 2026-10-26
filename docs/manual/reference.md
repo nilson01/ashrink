@@ -48,12 +48,6 @@ For plotting and pandas tables:
 python -m pip install '.[plot,table]'
 ```
 
-With Git installed and access to the repository:
-
-```sh
-python -m pip install 'git+https://github.com/nilson01/ashrink.git@implement/first-release'
-```
-
 The package is not published on PyPI. R is not a runtime dependency.
 
 ## Tested environments
@@ -171,18 +165,7 @@ These fixed examples demonstrate calls, not prediction accuracy or calibration.
 
 # Posterior summaries and data handling
 
-## Fit a model
-
-| Input | Function | Parameter being estimated |
-| --- | --- | --- |
-| Effect estimates and standard errors | `fit` | Scalar effects under Gaussian or Student-t summary likelihoods |
-| Counts and exposure times | `fit_poisson` | Nonnegative Poisson rates |
-| Successes and trial counts | `fit_binomial` | Binomial probabilities |
-| Effect matrices and error covariances | `fit_multivariate` | Effect vectors across conditions |
-| Continuous outcomes and predictor matrix | `fit_regression` | Regression coefficients and predicted means |
-| Binary/binomial outcomes and predictors | `fit_logistic_regression` | Log-odds coefficients and fitted probabilities |
-| Counts, exposures and predictors | `fit_poisson_regression` | Log-rate coefficients and fitted counts |
-| Continuous outcomes, predictors and groups | `fit_mixed_regression` | Fixed coefficients and random intercepts |
+## Select a prior and likelihood
 
 In `fit`, `family` selects the prior: `normal`, `uniform` or `halfuniform`.
 A finite `df` selects a Student-t likelihood; its input standard-error value
@@ -203,7 +186,7 @@ Poisson rates are nonnegative and binomial probabilities lie between zero and
 one. The Poisson and binomial methods therefore use Gamma and Beta mixtures with a
 specified common mode. Their parameter and null scales differ from scalar
 signed effects. These are conjugate-mixture extensions, not matched R ashr
-likelihood routes.
+likelihoods.
 
 When effects are measured across conditions, their relationships can inform
 shrinkage. Multivariate fitting uses supplied positive-semidefinite
@@ -246,12 +229,12 @@ Named-column adapters are `fit_frame`, `fit_poisson_frame`,
 adapters. They accept pandas frames or mappings of columns.
 Scalar missing values are rejected by default;
 `missing="drop"` explicitly removes incomplete rows and retains their indices.
-Other input routes require complete data.
+Other fitting methods require complete data.
 
 `to_records` returns plain rows; `write_csv` exports summaries.
 `save_result` and `load_result` use versioned JSON without pickle or code
 execution. Summary-input results reconstruct their posterior calculations;
-regression results restore their saved factors. Neither route estimates new
+regression results restore their saved factors. Neither operation estimates new
 mixture weights. Saved results retain input estimates or counts. Regression
 JSON also retains training outcomes, directly or through fitted values and
 residuals; it is not an anonymized summary. `result.to_dataframe()` requires
@@ -340,8 +323,9 @@ Intervals condition on fitted mixture weights, residual variance and intercept.
 They do not include uncertainty from estimating those quantities. With strongly
 correlated predictors, the approximation can favor one predictor over another
 and understate uncertainty. Null/sign probabilities do not provide guaranteed
-variable selection or establish causal effects. The Gaussian method requires a dense numeric design. Binary, count and
-grouped outcomes use the separate methods below.
+variable selection or establish causal effects. The Gaussian method requires a
+dense numeric predictor matrix. Binary, count and grouped outcomes use the
+separate methods below.
 
 ## Binary and count outcomes
 
@@ -391,7 +375,8 @@ variances need not equal those from an exact joint Gaussian analysis.
 Random slopes, general correlation structures and non-Gaussian mixed models
 are outside this version.
 
-The worked examples show all three routes. Named-column adapters add `_frame` to each fitting function's name.
+The worked examples show all three methods. Named-column adapters add `_frame`
+to each fitting function's name.
 `fit_mixed_regression_frame` takes the group column through `group=`.
 
 # Numerical methods and interpretation
@@ -400,7 +385,7 @@ The scalar implementation estimates finite-mixture weights for the
 adaptive-shrinkage models described by [Stephens (2017)](https://doi.org/10.1093/biostatistics/kxw041).
 Gaussian component posteriors are analytic. Student-t component posteriors
 use adaptive one-dimensional quadrature and record integration diagnostics.
-This numerical route can be substantially slower than the Gaussian route.
+Quadrature can be substantially slower than the analytic Gaussian calculation.
 
 Mixture fitting uses expectation-maximization (EM) with fixed component grids,
 followed by constrained optimization when the optimality residual remains
@@ -412,7 +397,7 @@ nonconvergence information rather than treating every returned fit as reliable.
 
 The R reference version is ashr 2.2-63. Uniform widths and normal standard
 deviations have different meanings. Student-t inputs are scale parameters.
-The normal-prior/Student-t combination uses an independent integration route;
+The normal-prior/Student-t combination uses an independent integration method;
 the inspected R implementation rejects that combination. Ranked summaries
 include all tied local probabilities at a cutoff, which can differ from R's
 order-dependent cumulative averages within ties.
@@ -422,13 +407,13 @@ a specified mode, with an optional point mass at that mode. Multivariate
 models use finite mixtures of zero-mean normals with supplied covariance
 patterns, following the fixed-pattern part of
 [Urbut et al. (2019)](https://doi.org/10.1038/s41588-018-0268-8).
-Selected support does not imply full ashr or mashr coverage.
+AShrink does not implement all methods in ashr or mashr.
 
 Posterior probabilities and credible intervals condition on estimated mixture
 weights. They omit uncertainty from fitting those weights. Dependence between
 scalar observations, misspecified likelihoods and unsuitable prior components
-can affect inference. Independent reference comparisons and statistical
-performance checks are recorded separately from implementation progress.
+can affect inference. The numerical reference checks below describe the
+comparisons and their limits.
 
 Gaussian regression uses cyclic variational coordinate ascent with
 residual-variance-scaled normal-mixture priors, following
@@ -442,7 +427,7 @@ Binary/binomial regression uses a quadratic logistic lower bound. Poisson
 regression uses analytic exponential moments of independent mixture-normal
 factors, with guarded inner Newton optimization. Gaussian random-intercept
 regression uses independent coefficient and group factors. These extensions
-have focused analytic/stationarity checks, not repeated-dataset calibration
+have focused analytic and stationarity checks, not repeated-dataset calibration
 studies. Prediction applies the fitted mean coefficients; nonlinear predictions
 do not integrate their uncertainty. See Regression models.
 
@@ -471,7 +456,8 @@ initial weights/variance, an intercept and no standardization. R uses
 Its `sigma_dep_q` option uses a different update and need not agree after one
 sweep. Stopping rules also differ: AShrink checks changes in the evidence
 lower bound (ELBO), whereas R checks coefficient or mixture-weight changes.
-Matching results in these cases does not establish global optimization, interval coverage or prediction performance.
+Matching results in these cases does not establish global optimization, interval
+coverage or prediction performance.
 
 R warns that half-uniform priors without a null-biased penalty can give
 misleading sign probabilities. Those fixed-prior cases check arithmetic only.
@@ -487,7 +473,6 @@ compare fixed-variance posterior means with a joint Gaussian block solution.
 These checks address the implemented updates; they do not establish interval
 coverage or prediction performance across repeated datasets.
 
-
 Multivariate comparisons use explicit covariance patterns, correlation matrices,
 unit scale multipliers and no automatic covariance normalization. One case
 checks a single full-rank component, one estimates mixture weights, and one
@@ -495,7 +480,7 @@ reconstructs fixed-weight summaries with singular patterns and a zero atom.
 The fixed-weight case uses `mash(..., fixg=TRUE)` in R and public result
 reconstruction in Python. It checks posterior calculations rather than fitting
 new mixture weights. R's one-component optimizer reports that no optimization
-is needed. Learned covariance patterns remain outside the selected support.
+is needed. Learning covariance patterns is not supported.
 
 
 # Function reference

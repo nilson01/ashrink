@@ -1,6 +1,6 @@
-include LICENSE NOTICE.md CITATION.cff README.md
+include LICENSE NOTICE.md CITATION.cff README.md mkdocs.yml CONTRIBUTING.md
 recursive-include docs *.md *.png *.csv
 recursive-include examples *.py
 recursive-include tests *.py *.json
-recursive-include tools *.R
+recursive-include tools *.R *.py *.txt
 include docs/manual/ashrink-reference.pdf

@@ -1,0 +1,33 @@
+site_name: AShrink
+site_url: https://nilson01.github.io/ashrink/
+site_description: Empirical Bayes adaptive shrinkage for effect estimates and regression in Python.
+repo_url: https://github.com/nilson01/ashrink
+edit_uri: ''
+docs_dir: docs
+site_dir: site
+use_directory_urls: true
+theme:
+  name: readthedocs
+plugins:
+  - search
+markdown_extensions:
+  - tables
+  - attr_list
+  - fenced_code
+  - pymdownx.arithmatex:
+      generic: true
+extra_javascript:
+  - https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js
+nav:
+  - Start here: index.md
+  - Installation: installation.md
+  - Tutorials: tutorials.md
+  - Regression: regression.md
+  - API by task: api.md
+  - Numerical methods and limits: numerical-methods.md
+  - Reference checks: reference-checks.md
+  - Reference manual:
+      - Read online: manual/reference.md
+      - Download PDF: manual/ashrink-reference.pdf
+  - Common questions: faq.md
+  - Development: development.md

@@ -1,9 +1,11 @@
 # Contributing
 
-Keep changes focused and preserve the documented statistical contracts.
+Keep changes focused and preserve the documented statistical assumptions and
+API behavior.
 Include an independent known-answer check for a numerical change, plus relevant
-input and failure cases. Add a short installed-package example for a new user
-route. Document changes to parameter scales, priors, output shapes or defaults.
+input and failure cases. Add a short installed-package example for a new fitting
+method or input format. Document changes to parameter scales, priors, output shapes
+or defaults.
 
 Development tools:
 

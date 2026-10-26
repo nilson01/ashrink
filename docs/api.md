@@ -32,7 +32,7 @@ Poisson rates are nonnegative and binomial probabilities lie between zero and
 one. The Poisson and binomial methods therefore use Gamma and Beta mixtures with a
 specified common mode. Their parameter and null scales differ from scalar
 signed effects. These are conjugate-mixture extensions, not matched R ashr
-likelihood routes.
+likelihoods.
 
 When effects are measured across conditions, their relationships can inform
 shrinkage. Multivariate fitting uses supplied positive-semidefinite
@@ -75,12 +75,12 @@ Named-column adapters are `fit_frame`, `fit_poisson_frame`,
 adapters. They accept pandas frames or mappings of columns.
 Scalar missing values are rejected by default;
 `missing="drop"` explicitly removes incomplete rows and retains their indices.
-Other input routes require complete data.
+Other fitting methods require complete data.
 
 `to_records` returns plain rows; `write_csv` exports summaries.
 `save_result` and `load_result` use versioned JSON without pickle or code
 execution. Summary-input results reconstruct their posterior calculations;
-regression results restore their saved factors. Neither route estimates new
+regression results restore their saved factors. Neither operation estimates new
 mixture weights. Saved results retain input estimates or counts. Regression
 JSON also retains training outcomes, directly or through fitted values and
 residuals; it is not an anonymized summary. `result.to_dataframe()` requires

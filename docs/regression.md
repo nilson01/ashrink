@@ -71,8 +71,9 @@ Intervals condition on fitted mixture weights, residual variance and intercept.
 They do not include uncertainty from estimating those quantities. With strongly
 correlated predictors, the approximation can favor one predictor over another
 and understate uncertainty. Null/sign probabilities do not provide guaranteed
-variable selection or establish causal effects. The Gaussian method requires a dense numeric design. Binary, count and
-grouped outcomes use the separate methods below.
+variable selection or establish causal effects. The Gaussian method requires a
+dense numeric predictor matrix. Binary, count and grouped outcomes use the
+separate methods below.
 
 ## Binary and count outcomes
 
@@ -122,6 +123,6 @@ variances need not equal those from an exact joint Gaussian analysis.
 Random slopes, general correlation structures and non-Gaussian mixed models
 are outside this version.
 
-The [extension example](../examples/regression_extensions.py) shows all three
-routes. Named-column adapters add `_frame` to each fitting function's name.
+The [extension example](https://github.com/nilson01/ashrink/blob/main/examples/regression_extensions.py) shows all three
+methods. Named-column adapters add `_frame` to each fitting function's name.
 `fit_mixed_regression_frame` takes the group column through `group=`.
