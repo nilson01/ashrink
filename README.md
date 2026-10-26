@@ -21,7 +21,6 @@ python -m pip install 'git+https://github.com/nilson01/ashrink.git'
 ```
 
 From a local checkout, use `python -m pip install .`.
-The package is not yet published on PyPI.
 
 NumPy and SciPy are runtime dependencies. Plotting and pandas tables use the
 `plot` and `table` extras. No R runtime is required.

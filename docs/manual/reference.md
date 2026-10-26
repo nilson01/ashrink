@@ -54,7 +54,7 @@ For plotting and pandas tables:
 python -m pip install '.[plot,table]'
 ```
 
-The package is not published on PyPI. R is not a runtime dependency.
+R is not a runtime dependency.
 
 ## Tested environments
 
