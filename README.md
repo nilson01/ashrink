@@ -5,17 +5,23 @@ binomial probabilities, effect estimates measured across several conditions,
 and regression from outcomes and predictors, including Gaussian random intercepts.
 It learns finite-mixture weights from the data and returns posterior summaries.
 
+[Documentation](https://nilson01.github.io/ashrink/) ·
+[Source](https://github.com/nilson01/ashrink)
+
 The adaptive-shrinkage method follows [Stephens (2017)](https://doi.org/10.1093/biostatistics/kxw041).
 The R packages [ashr](https://github.com/stephens999/ashr) and
 [mashr](https://github.com/stephenslab/mashr) are numerical references for matched
 methods. Count models use conjugate mixtures with a specified common mode.
 AShrink is an independent implementation; the original authors have not endorsed it.
 
-## Install from a checkout
+## Install from source
 
 ```sh
-python -m pip install .
+python -m pip install 'git+https://github.com/nilson01/ashrink.git'
 ```
+
+From a local checkout, use `python -m pip install .`.
+The package is not yet published on PyPI.
 
 NumPy and SciPy are runtime dependencies. Plotting and pandas tables use the
 `plot` and `table` extras. No R runtime is required.
@@ -40,11 +46,11 @@ mixture weights. Returned intervals are posterior credible intervals,
 conditional on those fitted weights. The first three posterior means are
 `[-0.764278, -0.306851, -0.032956]`.
 
-![Eight Gaussian effect estimates before and after shrinkage, with their posterior credible intervals.](docs/figures/first-example.png)
+![Eight Gaussian effect estimates before and after shrinkage, with their posterior credible intervals.](https://raw.githubusercontent.com/nilson01/ashrink/main/docs/figures/first-example.png)
 
 (a) Input estimates and posterior means. (b) Equal-tailed 95% credible intervals,
 conditional on the fitted prior. These are fixed illustrative inputs; the
-[plotted values](docs/figures/first-example.csv) are available as CSV.
+[plotted values](https://raw.githubusercontent.com/nilson01/ashrink/main/docs/figures/first-example.csv) are available as CSV.
 
 ## Methods
 
@@ -61,15 +67,17 @@ conditional on the fitted prior. These are fixed illustrative inputs; the
 
 Each method provides posterior estimates, credible intervals, null/sign
 probabilities, tables and saved results. Plots use the `plot` extra.
-See the [reference manual](docs/manual/reference.md) ([PDF](docs/manual/ashrink-reference.pdf)),
-[API guide](docs/api.md), [worked examples](examples/workflows.py),
-[regression](docs/regression.md)
-and [numerical limits](docs/numerical-methods.md).
-[Reference checks](docs/reference-checks.md) record the installed-R cases and
-independent analytic checks. Installed-wheel tests pass on macOS with Python 3.10
-and 3.14. Windows verification is pending. The package is not yet released.
+See the [reference manual](https://nilson01.github.io/ashrink/manual/reference/) ([PDF](https://nilson01.github.io/ashrink/manual/ashrink-reference.pdf)),
+[API guide](https://nilson01.github.io/ashrink/api/), [worked examples](https://github.com/nilson01/ashrink/blob/main/examples/workflows.py),
+[regression](https://nilson01.github.io/ashrink/regression/)
+and [numerical limits](https://nilson01.github.io/ashrink/numerical-methods/).
+[Reference checks](https://nilson01.github.io/ashrink/reference-checks/) record the installed-R cases and
+independent analytic checks. Installed-wheel tests pass on macOS and Linux with
+Python 3.10 and 3.14, and on Windows Server 2025 with Python 3.13. See the
+[tested environments](https://nilson01.github.io/ashrink/installation/#tested-environments)
+for versions and CI evidence.
 
 ## Citation
 
 Cite the original statistical method used in an analysis and record the AShrink
-version or commit. See [NOTICE.md](NOTICE.md) for attribution and licenses.
+version or commit. See [NOTICE.md](https://github.com/nilson01/ashrink/blob/main/NOTICE.md) for attribution and licenses.
