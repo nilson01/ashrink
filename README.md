@@ -61,7 +61,8 @@ conditional on the fitted prior. These are fixed illustrative inputs; the
 
 Each route provides posterior estimates, credible intervals, null/sign
 probabilities, tables and saved results. Plots use the `plot` extra.
-See the [API guide](docs/api.md), [worked examples](examples/workflows.py),
+See the [reference manual](docs/manual/reference.md) ([PDF](docs/manual/ashrink-reference.pdf)),
+[API guide](docs/api.md), [worked examples](examples/workflows.py),
 [regression](docs/regression.md)
 and [numerical limits](docs/numerical-methods.md).
 [Reference checks](docs/reference-checks.md) record the installed-R cases and

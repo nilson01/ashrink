@@ -7,7 +7,7 @@ fitting uses the Gaussian likelihood and prior
 $$
 \mathbf y\mid\mathbf X,\mathbf b,\sigma^2
 \sim N(\mathbf X\mathbf b,\sigma^2 I_n),\qquad
-b_j\mid\boldsymbol\pi,\sigma^2
+b_j\mid g,\sigma^2
 \sim\sum_{k=1}^{K}\pi_k N(0,\sigma^2\sigma_k^2).
 $$
 
@@ -18,7 +18,7 @@ centered outcomes and $\mathbf X$ contains
 centered, optionally scaled predictor columns. The vector $\mathbf b$ contains
 coefficients on that predictor scale, and $\sigma^2$ is the residual variance.
 With `fit_intercept=False`, outcomes and predictors are not centered.
-The mixture weights $\pi_k$ describe how often each prior scale occurs.
+The regression prior $g$ has mixture weights $\pi_k$, which describe how often each prior scale occurs.
 A component with $\sigma_k=0$ is a point mass at zero. The method follows
 [Kim et al. (2024), Sections 3.1–3.5 and Appendix E](https://jmlr.org/papers/v25/22-0953.html).
 

@@ -57,9 +57,11 @@ probability of a nonpositive or nonnegative effect, including a zero atom in
 both error events. For count models, the directions are relative to the
 specified null rate or probability. `qvalue` and `svalue` average local null
 and sign-error probabilities at their respective cutoffs. They are posterior
-summaries, not automatic frequentist error-control guarantees. Without a
-point-null component, `lfdr` and `qvalue` are zero by construction; this is a
-prior choice, not evidence that every effect differs from the null.
+summaries, not automatic frequentist error-control guarantees. If the prior has
+no atom at the reported parameter's null value, `lfdr` and `qvalue` are zero by
+construction. This is a prior choice, not evidence against the null. In a
+multivariate model, a coordinate can retain an atom even without a whole-vector
+null component.
 
 Multivariate results also provide posterior covariance matrices and the
 probability that the whole effect vector is zero. A coordinate can have a

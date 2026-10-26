@@ -565,8 +565,10 @@ def fit_regression(
     Each sweep updates coefficient factors, then mixture weights and residual
     variance while holding those factors fixed (Kim et al., 2024, Appendix E).
     Set either ``estimate_*`` flag to False to retain its initial value.
-    Residual variance uses the profile-likelihood divisor n, including when an
-    intercept is fitted. ELBO convergence is a local stopping criterion, not
+    The residual-variance update divides its expected quadratic terms by n plus
+    the sum of posterior probabilities of nonzero coefficients. This is the
+    fixed-factor update of Kim et al. (2024), Appendix E.3. ELBO convergence is a
+    local stopping criterion, not
     evidence of a global optimum or calibrated variable selection.
     """
     design = _numeric(X, "X", 2)
@@ -757,7 +759,7 @@ def fit_regression(
         "approximation": "independent coefficient factors",
         "hyperparameter_uncertainty": "not integrated",
         "intercept_uncertainty": "not integrated",
-        "residual_variance_divisor": "n (profile likelihood)",
+        "residual_variance_divisor": "n + sum of posterior nonzero probabilities",
     }
     return RegressionResult(
         responsibilities=phi,
