@@ -8,6 +8,7 @@ site_dir: site
 use_directory_urls: true
 theme:
   name: readthedocs
+  custom_dir: overrides
 plugins:
   - search
 markdown_extensions:

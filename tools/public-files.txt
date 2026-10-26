@@ -28,6 +28,7 @@ examples/regression.py
 examples/regression_extensions.py
 examples/workflows.py
 mkdocs.yml
+overrides/toc.html
 pyproject.toml
 src/ashrink/__init__.py
 src/ashrink/__main__.py

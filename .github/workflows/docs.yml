@@ -3,9 +3,9 @@ name: Documentation
 on:
   push:
     branches: [main]
-    paths: ["docs/**", "README.md", "mkdocs.yml", "LICENSE", "NOTICE.md", "CITATION.cff", ".github/workflows/docs.yml"]
+    paths: ["docs/**", "overrides/**", "README.md", "mkdocs.yml", "LICENSE", "NOTICE.md", "CITATION.cff", ".github/workflows/docs.yml"]
   pull_request:
-    paths: ["docs/**", "README.md", "mkdocs.yml", "LICENSE", "NOTICE.md", "CITATION.cff", ".github/workflows/docs.yml"]
+    paths: ["docs/**", "overrides/**", "README.md", "mkdocs.yml", "LICENSE", "NOTICE.md", "CITATION.cff", ".github/workflows/docs.yml"]
   workflow_dispatch:
 
 permissions:
