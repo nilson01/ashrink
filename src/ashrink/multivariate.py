@@ -616,7 +616,9 @@ def fit_multivariate(
         Dirichlet parameter for the joint null; 1 gives maximum likelihood.
         A value above one requires a joint-null component.
     maxiter, tol : int, float
-        EM iteration limit and absolute mixture-weight stopping tolerance.
+        Total EM/SLSQP iteration limit and weight-change warmup tolerance.
+        Final convergence uses the relative KKT residual with threshold
+        max(1e-7, 10*tol); inspect diagnostics.
 
     Notes
     -----

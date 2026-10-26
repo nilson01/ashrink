@@ -21,16 +21,21 @@ likelihood; larger values add a penalty favouring the point-null component.
 
 `normal_mixture` and `uniform_mixture` construct explicit scalar priors.
 Pass one through `fit(..., prior=prior, fix_prior=True)` to evaluate a fixed
-prior without estimating new weights. A result's `shrink` method evaluates
-new observations with the fitted prior. It does not estimate new weights.
+prior without estimating new weights. Summary-input results provide `shrink`
+to evaluate new observations with the fitted prior, without estimating new
+weights. Student-t results require the new observations' `df`. For count
+results, `shrink(observations, auxiliary)` takes exposure times or trial counts
+as its second argument.
 
 When observations are counts, shrinkage must respect the parameter range.
 Poisson rates are nonnegative and binomial probabilities lie between zero and
 one. The Poisson and binomial methods therefore use Gamma and Beta mixtures with a
 specified common mode. Their parameter and null scales differ from scalar
 signed effects. These are conjugate-mixture extensions, not matched R ashr
-likelihood routes. When effects are measured across conditions, their relationships can also
-inform shrinkage. Multivariate fitting uses supplied positive-semidefinite
+likelihood routes.
+
+When effects are measured across conditions, their relationships can inform
+shrinkage. Multivariate fitting uses supplied positive-semidefinite
 covariance patterns and positive-definite observation-error covariances;
 patterns and residual correlations are not learned from the effects.
 
@@ -40,15 +45,16 @@ distributions use a variational approximation; prediction returns outcome means.
 ## Inspect posterior results
 
 All results provide `posterior_mean`, `posterior_sd`, `summary`, `cdf`,
-`quantile`, `interval` and `sample`. `summary` returns numeric columns;
-scalar and multivariate `format_summary` methods provide compact text.
+`quantile`, `interval` and `sample`. `summary` returns reporting columns.
+Scalar, multivariate and regression results also have `format_summary` for
+compact text.
 `sample` draws latent parameters, not future observed data.
 
 `interval(level=.95)` returns equal-tailed posterior credible intervals.
 They condition on the fitted mixture weights and selected component grid.
 `lfdr` is posterior point-null probability. `lfsr` is the smaller posterior
 probability of a nonpositive or nonnegative effect, including a zero atom in
-both error events. For count models, the two directions are relative to the
+both error events. For count models, the directions are relative to the
 specified null rate or probability. `qvalue` and `svalue` average local null
 and sign-error probabilities at their respective cutoffs. They are posterior
 summaries, not automatic frequentist error-control guarantees. Without a
@@ -63,15 +69,20 @@ null probabilities therefore have different meanings.
 ## Tables and saved results
 
 Named-column adapters are `fit_frame`, `fit_poisson_frame`,
-`fit_binomial_frame`, `fit_multivariate_frame` and the regression `_frame` adapters. They accept pandas frames
-or mappings of columns. Scalar missing values are rejected by default;
+`fit_binomial_frame`, `fit_multivariate_frame` and the regression `_frame`
+adapters. They accept pandas frames or mappings of columns.
+Scalar missing values are rejected by default;
 `missing="drop"` explicitly removes incomplete rows and retains their indices.
 Other input routes require complete data.
 
 `to_records` returns plain rows; `write_csv` exports summaries.
 `save_result` and `load_result` use versioned JSON without pickle or code
-execution. Loading recomputes posterior quantities but does not fit mixture
-weights. `result.to_dataframe()` requires the `table` extra.
+execution. Summary-input results reconstruct their posterior calculations;
+regression results restore their saved factors. Neither route estimates new
+mixture weights. Saved results retain input estimates or counts. Regression
+JSON also retains training outcomes, directly or through fitted values and
+residuals; it is not an anonymized summary. `result.to_dataframe()` requires
+the `table` extra.
 
 ## Plots
 

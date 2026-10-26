@@ -37,7 +37,14 @@ intervals = result.interval(level=0.95)
 The inputs are effect estimates and their standard errors. `scales` gives
 fixed normal-prior component standard deviations; the fit estimates their
 mixture weights. Returned intervals are posterior credible intervals,
-conditional on those fitted weights.
+conditional on those fitted weights. The first three posterior means are
+`[-0.764278, -0.306851, -0.032956]`.
+
+![Eight Gaussian effect estimates before and after shrinkage, with their posterior credible intervals.](docs/figures/first-example.png)
+
+(a) Input estimates and posterior means. (b) Equal-tailed 95% credible intervals,
+conditional on the fitted prior. These are fixed illustrative inputs; the
+[plotted values](docs/figures/first-example.csv) are available as CSV.
 
 ## Methods
 

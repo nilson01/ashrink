@@ -110,7 +110,7 @@ def plot_intervals(result, *, condition=0, level=0.95, indices=None, ax=None):
         xlabel="Parameter",
         ylabel="Observation",
     )
-    ax.legend(frameon=False)
+    ax.legend(frameon=False, loc="lower center", bbox_to_anchor=(0.5, 1.02))
     return ax
 
 
@@ -236,5 +236,5 @@ def plot_random_effects(result, *, level=0.95, ax=None):
     ax.scatter(result.random_effects, y, color=_BLUE, s=20)
     ax.axvline(0, color="#555555", ls="--", lw=0.8)
     ax.set(yticks=y, yticklabels=result.group_labels, xlabel="Random intercept", ylabel="Group")
-    ax.legend(frameon=False)
+    ax.legend(frameon=False, loc="lower center", bbox_to_anchor=(0.5, 1.02))
     return ax

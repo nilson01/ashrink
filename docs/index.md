@@ -1,15 +1,11 @@
 # AShrink documentation
 
-Start with noisy estimates or counts, choose the likelihood that describes
-them, then inspect the fitted posterior distributions.
+Fit from effect estimates, counts, or outcomes and predictors. Then inspect
+posterior estimates, uncertainty and diagnostics.
 
 - [Installation](installation.md)
-- [Worked examples](../examples/workflows.py)
+- [Worked summary-input examples](../examples/workflows.py)
+- [Regression from outcomes and predictors](regression.md)
 - [API guide](api.md)
 - [Numerical methods and limits](numerical-methods.md)
 - [Reference checks](reference-checks.md)
-
-- [Regression from outcomes and predictors](regression.md)
-
-See the [numerical methods and limits](numerical-methods.md) for the scope of
-posterior uncertainty.

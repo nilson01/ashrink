@@ -1,19 +1,25 @@
 # Regression from outcomes and predictors
 
 Use `fit_regression` when the observations and predictors are available directly.
-For a continuous outcome, the model is
+Conditional on the fitted intercept and predictor transformation, coefficient
+fitting uses the Gaussian likelihood and prior
 
-\[
+$$
 \mathbf y\mid\mathbf X,\mathbf b,\sigma^2
 \sim N(\mathbf X\mathbf b,\sigma^2 I_n),\qquad
 b_j\mid\boldsymbol\pi,\sigma^2
 \sim\sum_{k=1}^{K}\pi_k N(0,\sigma^2\sigma_k^2).
-\]
+$$
 
-Here, \(\mathbf y\) contains outcomes, \(\mathbf X\) contains predictor columns,
-\(\mathbf b\) contains coefficients, and \(\sigma^2\) is the residual variance.
-The mixture weights \(\pi_k\) describe how often each prior scale occurs.
-A component with \(\sigma_k=0\) is a point mass at zero. The method follows
+Here, $n$ is the number of observations, $p$ the number of predictors,
+and $I_n$ the identity matrix. The $K$ mixture weights satisfy
+$\pi_k\ge0$ and $\sum_k\pi_k=1$. The vector $\mathbf y$ contains
+centered outcomes and $\mathbf X$ contains
+centered, optionally scaled predictor columns. The vector $\mathbf b$ contains
+coefficients on that predictor scale, and $\sigma^2$ is the residual variance.
+With `fit_intercept=False`, outcomes and predictors are not centered.
+The mixture weights $\pi_k$ describe how often each prior scale occurs.
+A component with $\sigma_k=0$ is a point mass at zero. The method follows
 [Kim et al. (2024), Sections 3.1–3.5 and Appendix E](https://jmlr.org/papers/v25/22-0953.html).
 
 ## Fit and predict
@@ -29,7 +35,7 @@ print(result.format_summary())
 predicted = result.predict(np.array([[0.2, 0.5], [0.8, -0.3]]))
 ```
 
-`scales` supplies the relative prior standard deviations \(\sigma_k\).
+`scales` supplies the relative prior standard deviations $\sigma_k$.
 Fitting adds a zero atom by default and learns the mixture weights and residual
 variance. The component grid is sorted and deduplicated; `initial_weights`
 must follow the resulting order, with the zero atom first.
@@ -53,7 +59,8 @@ available through `estimate_weights=False` and
 quantities. `interval`, `cdf`, `quantile` and `sample` describe approximate
 marginal coefficient distributions. `summary` returns numeric columns;
 `plot_coefficients`, `plot_residuals` and `plot_diagnostics` inspect the fit.
-Saved JSON includes fitted values and residuals from the training observations.
+Saved JSON includes fitted values and residuals, from which training outcomes
+can be recovered. It is not an anonymized summary.
 
 The algorithm uses independent coefficient factors and maximizes an evidence
 lower bound (ELBO). Inspect `diagnostics["converged"]` and the recorded ELBO
@@ -64,8 +71,8 @@ Intervals condition on fitted mixture weights, residual variance and intercept.
 They do not include uncertainty from estimating those quantities. With strongly
 correlated predictors, the approximation can favor one predictor over another
 and understate uncertainty. Null/sign probabilities do not provide guaranteed
-variable selection or establish causal effects. The first release supports
-Gaussian outcomes and dense numeric designs.
+variable selection or establish causal effects. The Gaussian method requires a dense numeric design. Binary, count and
+grouped outcomes use the separate methods below.
 
 ## Binary and count outcomes
 
@@ -105,7 +112,8 @@ supplied initial values fixed.
 `result.predict(X_new)` returns population means. Supplying known group labels
 adds their fitted random intercepts. Unseen labels raise an error unless
 `allow_new_groups=True`, which assigns those groups a mean random effect of zero.
-Neither choice adds future observation noise.
+Neither choice adds future observation noise or integrates uncertainty in the
+group effects.
 
 `random_effect_summary` and `random_effect_interval` report the approximate
 group distributions; `plot_random_effects` displays them. Fixed and group

@@ -69,3 +69,46 @@ def test_installed_regression_reference(case):
         result.residual_variance, case["residual_variance"], rtol=tolerance, atol=tolerance
     )
     assert_allclose(result.weights, case["weights"], rtol=tolerance, atol=tolerance)
+
+
+MULTIVARIATE_REFERENCE = json.loads(
+    (Path(__file__).parent / "fixtures" / "mashr-0.2.79.json").read_text()
+)
+
+
+@pytest.mark.parametrize("case", MULTIVARIATE_REFERENCE["cases"], ids=lambda c: c["name"])
+def test_installed_mashr(case):
+    from ashrink import fit_multivariate, MultivariateResult
+
+    effects = np.asarray(case["effects"])
+    se = np.asarray(case["standard_errors"])
+    if case["fixed"]:
+        errors = se[:, :, None] * np.asarray(case["correlation"])[None, :, :] * se[:, None, :]
+        components = ([np.zeros((2, 2)).tolist()] if case["point_mass"] else []) + case["patterns"]
+        r = MultivariateResult.from_dict(
+            dict(
+                schema_version=1,
+                model="multivariate",
+                family="multivariate_normal",
+                effects=effects.tolist(),
+                error_covariance=errors.tolist(),
+                covariances=components,
+                weights=case["weights"],
+                diagnostics={"fixed_prior": True},
+            )
+        )
+    else:
+        r = fit_multivariate(
+            effects,
+            se,
+            correlation=case["correlation"],
+            covariances=case["patterns"],
+            point_mass=case["point_mass"],
+            null_weight=1,
+            tol=1e-10,
+        )
+        assert r.diagnostics["converged"]
+    tolerance = 2e-10 if case["fixed"] or len(case["weights"]) == 1 else 5e-6
+    for name in ["posterior_mean", "posterior_sd", "posterior_covariance", "lfdr", "lfsr"]:
+        assert_allclose(getattr(r, name), case[name], rtol=tolerance, atol=tolerance)
+    assert_allclose(r.weights, case["weights"], rtol=tolerance, atol=tolerance)

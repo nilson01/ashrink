@@ -331,3 +331,40 @@ def test_scalar_outputs_are_read_only():
         result.posterior_mean[0] = 2
     with pytest.raises(TypeError):
         result.diagnostics["converged"] = True
+
+
+@pytest.mark.parametrize("family", ["normal", "uniform", "halfuniform"])
+def test_student_t_large_df_approaches_gaussian(family):
+    prior = (
+        ashrink.normal_mixture([1.2], weights=[0.3, 0.7])
+        if family == "normal"
+        else ashrink.uniform_mixture(
+            [1.2],
+            asymmetric=family == "halfuniform",
+            weights=[0.3, 0.35, 0.35] if family == "halfuniform" else [0.3, 0.7],
+        )
+    )
+    gaussian = ashrink.fit([0.7], [0.8], prior=prior, fix_prior=True)
+    limiting = ashrink.fit([0.7], [0.8], df=1e6, prior=prior, fix_prior=True)
+    assert_allclose(limiting.posterior_mean, gaussian.posterior_mean, atol=2e-5)
+    assert_allclose(limiting.posterior_sd, gaussian.posterior_sd, atol=2e-5)
+
+
+@pytest.mark.parametrize("family", ["poisson", "binomial"])
+def test_count_mixture_atom_cdf_and_quantile(family):
+    if family == "poisson":
+        result = ashrink.CountResult("poisson", [2], [2], 1, [2], True, [0.75, 0.25])
+        marginal = stats.nbinom.pmf(2, 3, 0.5)
+        atom_likelihood = stats.poisson.pmf(2, 2)
+        atom = 0.75 * atom_likelihood / (0.75 * atom_likelihood + 0.25 * marginal)
+        left = (1 - atom) * stats.gamma.cdf(1, a=5, scale=0.25)
+        null = 1.0
+    else:
+        result = ashrink.CountResult("binomial", [0], [0], 0.5, [2], True, [0.75, 0.25])
+        atom = 0.75
+        left = 0.125
+        null = 0.5
+    assert_allclose(result.lfdr, [atom], atol=1e-12)
+    assert_allclose(result.cdf(null), [left + atom], atol=1e-12)
+    assert_allclose(result.cdf(null - 1e-10), [left], atol=1e-9)
+    assert_allclose(result.quantile(left + atom / 2), [null], atol=1e-12)

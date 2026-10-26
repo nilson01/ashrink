@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "ashrink"
 version = "0.1.0.dev0"
-description = "Empirical Bayes adaptive shrinkage for effect estimates, rates and probabilities"
+description = "Empirical Bayes adaptive shrinkage for effect estimates and regression"
 authors = [{name = "Nilson Chapagain", email = "nchapagain@tamu.edu"}]
 readme = "README.md"
 requires-python = ">=3.10"
