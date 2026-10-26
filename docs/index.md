@@ -1,9 +1,10 @@
 # AShrink
 
-AShrink provides empirical Bayes shrinkage for noisy effect estimates, Poisson
-rates, binomial probabilities, effects measured across conditions, and regression
-coefficients. It estimates finite-mixture weights from the data and returns
-posterior summaries. NumPy and SciPy provide the numerical calculations;
+Adaptive shrinkage uses information shared across estimates to learn a prior
+distribution and compute posterior summaries. AShrink provides this approach in
+Python for supplied effect estimates and selected regression models. It also
+supports Poisson rates, binomial probabilities, and effects measured across
+conditions. NumPy and SciPy provide the numerical calculations;
 R is not a runtime dependency.
 
 Start with [installation](installation.md), then follow the
