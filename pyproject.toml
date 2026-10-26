@@ -13,6 +13,9 @@ license = "GPL-3.0-or-later"
 license-files = ["LICENSE", "NOTICE.md"]
 dependencies = ["numpy>=1.24", "scipy>=1.11"]
 
+[project.scripts]
+ashrink = "ashrink.__main__:main"
+
 [project.urls]
 Repository = "https://github.com/nilson01/ashrink"
 Issues = "https://github.com/nilson01/ashrink/issues"
@@ -24,3 +27,9 @@ dev = ["pytest>=8", "ruff>=0.14", "build>=1.2"]
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F"]

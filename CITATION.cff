@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+title: "AShrink: empirical Bayes adaptive shrinkage in Python"
+message: "Cite the statistical method used and record the AShrink version or commit."
+type: software
+authors:
+  - family-names: Chapagain
+    given-names: Nilson
+    affiliation: Texas A&M University
+    email: nchapagain@tamu.edu
+repository-code: https://github.com/nilson01/ashrink
+license: GPL-3.0-or-later

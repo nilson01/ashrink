@@ -19,11 +19,39 @@ python -m pip install .
 NumPy and SciPy are runtime dependencies. Plotting and pandas tables use the
 `plot` and `table` extras. No R runtime is required.
 
+## First example
+
+```python
+from ashrink import fit
+
+result = fit(
+    [-1.4, -0.6, -0.1, 0.0, 0.2, 0.7, 1.8, 2.2],
+    [0.7, 0.4, 0.5, 0.3, 0.5, 0.4, 0.8, 0.7],
+    scales=[0.2, 0.6, 1.5],
+)
+print(result.format_summary())
+intervals = result.interval(level=0.95)
+```
+
+The inputs are effect estimates and their standard errors. `scales` gives
+fixed normal-prior component standard deviations; the fit estimates their
+mixture weights. Returned intervals are posterior credible intervals,
+conditional on those fitted weights.
+
 ## Methods
 
-The selected first release covers Gaussian and Student-t summary likelihoods,
-Poisson rates, binomial probabilities and multivariate Gaussian effects with
-supplied covariance patterns. Numerical validation and release checks are pending.
+| Analysis | Function | Prior components |
+| --- | --- | --- |
+| Gaussian or Student-t effect estimates | `fit` | Normal, symmetric uniform or asymmetric uniform |
+| Counts with exposure times | `fit_poisson` | Gamma components sharing a specified mode |
+| Successes out of trials | `fit_binomial` | Beta components sharing a specified mode |
+| Effects across conditions | `fit_multivariate` | Multivariate normals with supplied covariance patterns |
+
+Each route provides posterior estimates, credible intervals, null/sign
+probabilities, tables and saved results. Plots use the `plot` extra.
+See the [API guide](docs/api.md), [worked examples](examples/workflows.py)
+and [numerical limits](docs/numerical-methods.md). Numerical validation and
+release checks are pending.
 
 ## Citation
 
