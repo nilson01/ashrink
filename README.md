@@ -1,5 +1,10 @@
 # AShrink
 
+[![Tests](https://github.com/nilson01/ashrink/actions/workflows/implementation.yml/badge.svg?branch=main)](https://github.com/nilson01/ashrink/actions/workflows/implementation.yml)
+[![PyPI version](https://img.shields.io/pypi/v/ashrink?style=flat-square)](https://pypi.org/project/ashrink/)
+[![Weekly downloads](https://img.shields.io/pypi/dw/ashrink?style=flat-square)](https://pypistats.org/packages/ashrink)
+[![License: GPL-3.0-or-later](https://img.shields.io/badge/license-GPL--3.0--or--later-blue?style=flat-square)](https://github.com/nilson01/ashrink/blob/main/LICENSE)
+
 AShrink provides empirical Bayes shrinkage for noisy effect estimates, count rates,
 binomial probabilities, effect estimates measured across several conditions,
 and regression from outcomes and predictors, including Gaussian random intercepts.
