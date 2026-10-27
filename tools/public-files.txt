@@ -12,6 +12,7 @@ MANIFEST.in
 NOTICE.md
 README.md
 docs/api.md
+docs/citation.md
 docs/development.md
 docs/faq.md
 docs/figures/first-example.csv

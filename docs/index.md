@@ -50,6 +50,10 @@ See the repository [notice](https://github.com/nilson01/ashrink/blob/main/NOTICE
 and [license](https://github.com/nilson01/ashrink/blob/main/LICENSE) for attribution
 and terms.
 
+## Citation
+
+See the [package paper and BibTeX citation](citation.md).
+
 ## Acknowledgements
 
 Computations were performed on the Arseven Computing Cluster, Department of
