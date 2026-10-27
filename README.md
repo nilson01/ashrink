@@ -87,3 +87,10 @@ for versions and CI evidence.
 
 Cite the original statistical method used in an analysis and record the AShrink
 version or commit. See [NOTICE.md](https://github.com/nilson01/ashrink/blob/main/NOTICE.md) for attribution and licenses.
+
+## Acknowledgements
+
+Computations were performed on the Arseven Computing Cluster, Department of
+Statistics, Texas A&M University.
+
+This work received no grant funding.

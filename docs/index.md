@@ -49,3 +49,10 @@ AShrink is an independent implementation distributed under GPL-3.0-or-later.
 See the repository [notice](https://github.com/nilson01/ashrink/blob/main/NOTICE.md)
 and [license](https://github.com/nilson01/ashrink/blob/main/LICENSE) for attribution
 and terms.
+
+## Acknowledgements
+
+Computations were performed on the Arseven Computing Cluster, Department of
+Statistics, Texas A&M University.
+
+This work received no grant funding.
